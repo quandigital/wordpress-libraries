@@ -1,5 +1,5 @@
 {
-    "name": "quan/wp-libs",
+    "name": "quandigital/wp-libs",
     "description": "Common/Shared functionality for the quandigital.com WordPress site",
     "license": "MIT",
     "autoload": {
