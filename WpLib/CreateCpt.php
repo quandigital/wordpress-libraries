@@ -1,6 +1,6 @@
 <?php
 
-namespace Quan\AbNetLib;
+namespace QuanDigital\WpLib;
 
 class CreateCpt
 {
