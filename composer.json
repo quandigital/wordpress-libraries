@@ -1,0 +1,13 @@
+{
+    "name": "quandigital/wp-libs",
+    "description": "Common/Shared functionality for the quandigital.com WordPress site",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Quan\\": ""
+        }
+    },
+    "require": {
+        "php": ">=5.4"
+    }
+}
