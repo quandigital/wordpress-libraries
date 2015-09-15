@@ -4,6 +4,7 @@ namespace QuanDigital\WpLib;
 
 class Helpers
 {
+
     public static function notEmpty($var)
     {
         return (isset($var) && !empty($var));
