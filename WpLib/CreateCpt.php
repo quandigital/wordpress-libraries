@@ -4,12 +4,13 @@ namespace QuanDigital\WpLib;
 
 class CreateCpt
 {
-    public function __construct($posttype, $singular, $plural, $icon)
+    public function __construct($posttype, $singular, $plural, $icon = false, $supports = false)
     {
         $this->posttype = $posttype;
         $this->singular = $singular;
         $this->plural = $plural;
         $this->icon = $icon;
+        $this->supports = $supports;
 
         $this->createCpt();
         $this->mapMetaCaps();
@@ -18,19 +19,19 @@ class CreateCpt
     public function labels($singular, $plural) 
     {
         $labels = [
-            'name' => \_x($plural, 'Post Type General Name', 'abnet' ),
-            'singular_name' => \_x($singular, 'Post Type Singular Name', 'abnet' ),
-            'menu_name' => \__($singular, 'abnet' ),
-            'parent_item_colon' => \__('Parent ' . $singular . ':', 'abnet'),
-            'all_items' => \__('All ' . $plural, 'abnet' ),
-            'view_item' => \__('View ' . $singular, 'abnet' ),
-            'add_new_item' => \__('Add New ' . $singular, 'abnet'),
-            'add_new' => \__('New ' . $singular, 'abnet'),
-            'edit_item' => \__('Edit ' . $singular, 'abnet'),
-            'update_item' => \__('Update ' . $singular, 'abnet'),
-            'search_items' => \__('Search ' . $plural, 'abnet'),
-            'not_found' => \__('No ' . $plural . ' found', 'abnet'),
-            'not_found_in_trash' => \__('No ' . $plural . ' found in Trash', 'abnet'),
+            'name' => $plural,
+            'singular_name' => $singular,
+            'menu_name' => $singular,
+            'parent_item_colon' => 'Parent ' . $singular . ':',
+            'all_items' => 'All ' . $plural,
+            'view_item' => 'View ' . $singular,
+            'add_new_item' => 'Add New ' . $singular,
+            'add_new' => 'New ' . $singular,
+            'edit_item' => 'Edit ' . $singular,
+            'update_item' => 'Update ' . $singular,
+            'search_items' => 'Search ' . $plural,
+            'not_found' => 'No ' . $plural . ' found',
+            'not_found_in_trash' => 'No ' . $plural . ' found in Trash',
         ];
 
         return $labels;
@@ -61,7 +62,7 @@ class CreateCpt
     public function support()
     {
         $supports = [
-            'supports' => ['title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions',],
+            'supports' => ['title', 'editor', 'author', 'thumbnail', 'revisions',],
             'hierarchical' => false,
             'public' => true,
             'show_ui' => true,
@@ -75,6 +76,10 @@ class CreateCpt
             'publicly_queryable' => true,
         ];
 
+        if (is_array($this->supports)) {
+            $supports = array_merge($supports, $this->supports);
+        }
+
         return $supports;
     }
 
@@ -86,7 +91,7 @@ class CreateCpt
         $args['labels'] = $this->labels($this->singular, $this->plural);
         $args['capability_type'] = $this->posttype;
         $args['capabilities'] = $this->capabilities($this->posttype);
-        $args['menu_icon'] = $this->icon;
+        $args['menu_icon'] = $this->icon ? $this->icon : 'dashicons-edit';
 
         \add_action('init', function() use ($args) {
             \register_post_type($this->posttype, $args);
